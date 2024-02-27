@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Local apps
+    "project.apps.publication",
     "project.apps.comments",
     # Third-party apps
 ]
