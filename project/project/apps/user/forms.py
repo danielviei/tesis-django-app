@@ -30,3 +30,7 @@ class RegisterForm(forms.ModelForm):
         if password != password_confirm:
             self.add_error("password_confirm", "Las contraseñas no coinciden")
 
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput)
