@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     "project.apps.publication",
     "project.apps.comments",
     # Third-party apps
+    "widget_tweaks",
+    "tailwind",
+    "theme",
 ]
 
 MIDDLEWARE = [
