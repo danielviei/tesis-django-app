@@ -1,0 +1,5 @@
+# ignore node modules
+.env
+node_modules
+
+venv
