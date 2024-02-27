@@ -1,0 +1,4 @@
+{% if widget.value %}
+    <img src="{{ widget.value.url }}" class="w-24 h-24 rounded-full object-cover">
+{% endif %}
+<input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>

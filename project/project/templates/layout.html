@@ -1,0 +1,15 @@
+{% load static %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ pageTitle }}</title>
+        {% tailwind_css %}
+    </head>
+    <body class="relative h-screen flex flex-col items-center justify-center w-11/12">
+        <p class="absolute bottom-2 right-2 border border-1 border-gray-300 bg-[#D9D9D9] rounded p-3" id="alert_message">{{ alert_message }}</p>
+        {% block content %}{% endblock %}
+    </body>
+</html>
