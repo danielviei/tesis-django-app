@@ -1,5 +1,37 @@
-# ignore node modules
+# .gitignore
 .env
+
+# ignore node modules
 node_modules
 
 venv
+
+# db
+db.sqlite3
+
+# pycache
+__pycache__
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+# css or js builders
+static
+static_src
+staticfiles
+
+# macOS
+.DS_Store
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+images

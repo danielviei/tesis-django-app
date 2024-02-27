@@ -6,7 +6,7 @@ from project.apps.user.models import CustomUser as User
 
 class Publication(models.Model):
     title = models.CharField(max_length=255)
-    image = models.FileField(upload_to="publications/")
+    image = models.FileField(upload_to="images/publications/")
     content = models.TextField()
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
