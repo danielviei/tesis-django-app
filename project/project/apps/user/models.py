@@ -41,3 +41,15 @@ class CustomUser(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = "email"
+
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    def get_full_name(self):
+        return f"{self.name} {self.lastname}"
+
+    def get_short_name(self):
+        return self.name
+
+    def has_perm(self, perm, obj=None):
+        return True

@@ -7,10 +7,10 @@
     <div class="w-9/12 flex flex-col items-center justify-center">
         <div class="flex mb-4 w-full">
             <div class="flex flex-col w-full">
-                <label for="{{ form.username.id_for_label }}" class="ml-4 block text-sm font-bold mb-2">{{ form.username.label }}</label>
-                {{ form.username|add_class:"w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
-                {% if form.username.errors %}
-                    <div class="text-red-500 text-xs mt-2">{{ form.username.errors|join:", " }}</div>
+                <label for="{{ form.email.id_for_label }}" class="ml-4 block text-sm font-bold mb-2">{{ form.email.label }}</label>
+                {{ form.email|add_class:"w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                {% if form.email.errors %}
+                    <div class="text-red-500 text-xs mt-2">{{ form.email.errors|join:", " }}</div>
                 {% endif %}
             </div>
         </div>

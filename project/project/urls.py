@@ -19,10 +19,12 @@ from django.contrib import admin
 from django.urls import path
 
 from project.apps.user.views import login_view, register
+from project.apps.publication.views import register_publication
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("register/", register, name="register"),
     path("login/", login_view, name="login"),
     path("home/", login_view, name="home"),
+    path("create-publication/", register_publication, name="register_publication"),
 ]

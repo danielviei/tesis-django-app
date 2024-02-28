@@ -21,14 +21,15 @@ def login_view(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data["username"]
+            email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("home")
+                next_url = request.GET.get("next", "home")
+                return redirect(next_url)
             else:
-                form.add_error(None, "Invalid username or password")
+                form.add_error("email", "Invalid username or password")
     else:
         form = LoginForm()
 

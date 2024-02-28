@@ -138,3 +138,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Tailwind CSS settings
 TAILWIND_APP_NAME = "theme"
+
+LOGIN_URL = '/login/'
+AUTH_USER_MODEL = 'user.CustomUser'

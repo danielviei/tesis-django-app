@@ -30,7 +30,14 @@ class RegisterForm(forms.ModelForm):
         if password != password_confirm:
             self.add_error("password_confirm", "Las contraseñas no coinciden")
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=150)
+    email = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
