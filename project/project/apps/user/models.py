@@ -34,7 +34,7 @@ class CustomUser(AbstractBaseUser):
         choices=ROLE_CHOICES,
         default=USER,
     )
-    img = models.ImageField(upload_to="images/users/", null=True, blank=True)
+    img = models.ImageField(upload_to="users/", null=True, blank=True)
 
     last_login = None
 

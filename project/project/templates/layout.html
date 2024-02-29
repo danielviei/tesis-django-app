@@ -8,7 +8,19 @@
         <title>{{ pageTitle }}</title>
         {% tailwind_css %}
     </head>
-    <body class="relative h-screen flex flex-col items-center justify-center w-11/12">
+    <body class="relative h-auto block items-center justify-center mb-4">
+        <header class="bg-white shadow-md py-4 px-6 flex items-center justify-between w-full mb-2">
+            <h1 class="text-xl font-bold text-gray-800">Nombre de la aplicación</h1>
+            <!-- <img src="{% static 'img/logo.png' %}" alt="Logo"> -->
+            <!-- <h1>Bienvenido, {{ user.username }}</h1> -->
+            <div class="flex items-center space-x-4">
+                {% comment %}
+                <a href="{% url 'profile' %}">Perfil</a>
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
+                <a href="{% url 'settings' %}">Configuración</a>
+                {% endcomment %}
+            </div>
+        </header>
         {% block content %}{% endblock %}
     </body>
 </html>
