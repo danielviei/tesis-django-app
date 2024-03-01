@@ -23,6 +23,7 @@ from django.urls import path
 from project.apps.user.views import login_view, register
 from project.apps.publication.views import (
     register_publication,
+    list_publications,
 )
 
 
@@ -30,6 +31,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("register/", register, name="register"),
     path("login/", login_view, name="login"),
+    path("home/", list_publications, name="home"),
     path("create-publication/", register_publication, name="create_publication"),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

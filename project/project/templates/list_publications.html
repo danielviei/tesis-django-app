@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div>
+    <nav class="p-2">
+        <a href="{% url 'create_publication' %}">Agregar publicación</a>
+    </nav>
+    <main class="container mx-auto px-4 py-8 w-full flex justify-center items-center">
+        <section class="flex flex-col md:w-1/2 gap-4">
+            {% for publication in publications %}
+            <article class="p-4 rounded-md shadow-md bg-white hover:shadow-lg">
+                <div class="flex items-center mb-2">
+                    <img src="{{ publication.author_id.img.url }}" alt="{{ publication.author_id.img.alt_text }}" class="w-12 h-12 rounded-full object-cover">
+                    <div class="ml-4">
+                        <h3 class="text-gray-800 font-bold">{{ publication.author_id.name }} {{ publication.author_id.lastname }}</h3>
+                        <p class="text-gray-600">{{ publication.created_at }}</p>
+                    </div>
+                </div>
+                <img src="{{ publication.image.url }}" alt="{{ publication.image.alt_text }}" class="w-full rounded-t-md">
+                <div class="p-4">
+                    <h2 class="text-lg font-bold text-gray-800">{{ publication.title }}</h2>
+                    <p class="text-gray-600">{{ publication.content }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+    <div class="container mx-auto px-4 py-4 flex justify-center">
+        <ul class="pagination flex w-full justify-end list-none">
+            {% if publications.has_previous %}
+            <li class="mr-2">
+                <a href="?page={{ publications.previous_page_number }}" class="px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-600">Página anterior</a>
+            </li>
+            {% endif %}
+          {% for page_number in publications.paginator.page_range %}
+            <li class="mr-2">
+                {% if page_number == publications.number %}
+                <span class="px-3 py-2 rounded-md bg-blue-500 text-white">{{ page_number }}</span>
+                {% else %}
+                <a href="?page={{ page_number }}" class="px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-600">{{ page_number }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+          {% if publications.has_next %}
+            <li>
+                <a href="?page={{ publications.next_page_number }}" class="px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-600">Página siguiente</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
