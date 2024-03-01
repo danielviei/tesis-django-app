@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h3 class="text-lg font-bold text-gray-800">Deja un comentario</h3>
+<form action="{% url 'add_comment' publication.pk %}" method="post">
+  {% csrf_token %}
+  <div class="flex flex-col mt-4">
+    <label for="comment_content" class="text-sm font-bold text-gray-800 mb-2">Escribe tu comentario</label>
+    <textarea name="comment_content" id="comment_content" rows="4" class="w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+    <button type="submit" class="mt-4 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-700">Comentar</button>
+  </div>
+</form>
+{% endblock %}

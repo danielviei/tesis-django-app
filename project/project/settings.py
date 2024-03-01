@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "tailwind",
     "theme",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -139,5 +140,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Tailwind CSS settings
 TAILWIND_APP_NAME = "theme"
 
-LOGIN_URL = '/login/'
-AUTH_USER_MODEL = 'user.CustomUser'
+LOGIN_URL = "/login/"
+AUTH_USER_MODEL = "user.CustomUser"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

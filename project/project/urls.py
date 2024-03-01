@@ -22,9 +22,11 @@ from django.urls import path
 
 from project.apps.user.views import login_view, register
 from project.apps.publication.views import (
+    PublicationDetailView,
     register_publication,
     list_publications,
 )
+from project.apps.comments.views import AddCommentView
 
 
 urlpatterns = [
@@ -33,4 +35,19 @@ urlpatterns = [
     path("login/", login_view, name="login"),
     path("home/", list_publications, name="home"),
     path("create-publication/", register_publication, name="create_publication"),
+    path(
+        "publications/<int:pk>/",
+        PublicationDetailView.as_view(),
+        name="publication_detail",
+    ),
+    path(
+        "publications/<int:pk>/add-comment/",
+        AddCommentView.as_view(),
+        name="add_comment",
+    ),
+    path(
+        "publications/<int:pk>/add-comment/",
+        AddCommentView.as_view(),
+        name="add_comment",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

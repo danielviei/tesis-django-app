@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+from django.views.generic import DetailView
 
 from project.apps.publication.models import Publication
+from project.permissions import IsOwnerOrReadOnly
 
 from .forms import PublicationForm
 
@@ -31,3 +33,12 @@ def list_publications(request):
 
     return render(request, "list_publications.html", {"publications": publications})
 
+
+class PublicationDetailView(DetailView):
+    model = Publication
+    template_name = "publication_detail.html"
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
