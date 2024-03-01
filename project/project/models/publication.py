@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-from project.apps.user.models import CustomUser as User
+from project.models.user import CustomUser as User
 
 
 class Publication(models.Model):

@@ -20,13 +20,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from project.apps.user.views import login_view, register
-from project.apps.publication.views import (
+from project.controlers.user_views import login_view, register
+from project.controlers.publication_views import (
     PublicationDetailView,
     register_publication,
     list_publications,
 )
-from project.apps.comments.views import AddCommentView
+from project.controlers.comment_views import AddCommentView
 
 
 urlpatterns = [

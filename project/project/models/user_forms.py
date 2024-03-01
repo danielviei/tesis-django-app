@@ -1,5 +1,6 @@
 from django import forms
-from .models import CustomUser
+
+from project.models.user import CustomUser
 
 
 class ImageUploadWidget(forms.ClearableFileInput):

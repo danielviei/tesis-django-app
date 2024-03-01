@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from project.apps.publication.models import Publication
-from project.apps.comments.serializers import CommentSerializer
+from project.models.publication import Publication
+from project.models.comment_serializers import CommentSerializer
 
 
 class AddCommentView(APIView):

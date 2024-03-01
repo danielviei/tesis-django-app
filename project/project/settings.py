@@ -40,9 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Local apps
-    "project.apps.user",
-    "project.apps.publication",
-    "project.apps.comments",
+    "project",
     # Third-party apps
     "widget_tweaks",
     "tailwind",
@@ -141,7 +139,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 TAILWIND_APP_NAME = "theme"
 
 LOGIN_URL = "/login/"
-AUTH_USER_MODEL = "user.CustomUser"
+AUTH_USER_MODEL = "project.CustomUser"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

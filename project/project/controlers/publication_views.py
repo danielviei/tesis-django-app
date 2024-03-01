@@ -3,10 +3,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 
-from project.apps.publication.models import Publication
+from project.models.publication import Publication
 from project.permissions import IsOwnerOrReadOnly
 
-from .forms import PublicationForm
+from project.models.publication_forms import PublicationForm
 
 
 @login_required
