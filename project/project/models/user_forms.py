@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from project.models.user import CustomUser
 
@@ -84,3 +85,29 @@ class PasswordResetForm(forms.Form):
 class LoginForm(forms.Form):
     email = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
+
+    from django import forms
+
+
+class ForgotPasswordForm(forms.Form):
+    email = forms.CharField(label="Correo electrónico")
+
+
+class CustomResetPasswordForm(forms.Form):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput, label="Nueva contraseña"
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput, label="Confirmar nueva contraseña"
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("new_password1")
+        password2 = cleaned_data.get("new_password2")
+
+        if password1 and password2:
+            if password1 != password2:
+                raise ValidationError("Las dos contraseñas no coinciden.")
+
+        return cleaned_data

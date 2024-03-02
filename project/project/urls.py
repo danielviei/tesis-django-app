@@ -20,7 +20,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from project.controlers.user_views import login_view, password_reset, register, profile
+from project.controlers.user_views import (
+    forgot_password,
+    login_view,
+    password_reset,
+    register,
+    profile,
+    reset_password,
+)
 from project.controlers.publication_views import (
     PublicationDetailView,
     register_publication,
@@ -37,6 +44,16 @@ urlpatterns = [
     path("login/", login_view, name="login"),
     path("profile/", profile, name="profile"),
     path("password-reset/", password_reset, name="password_reset"),
+    path(
+        "forgot-password/",
+        forgot_password,
+        name="forgot_password",
+    ),
+    path(
+        "password-reset/<uidb64>/<token>/",
+        reset_password,
+        name="password_reset_done",
+    ),
     # publication
     path("create-publication/", register_publication, name="create_publication"),
     path(
