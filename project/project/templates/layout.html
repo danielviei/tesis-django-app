@@ -15,10 +15,14 @@
             <!-- <h1>Bienvenido, {{ user.username }}</h1> -->
             <div class="flex items-center space-x-4">
                 <a href="{% url 'profile' %}">Perfil</a>
+                {% if user.is_authenticated %}
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Cerrar sesión</button>
                 </form>
+                {% else %}
+                <a href="{% url 'login' %}">Iniciar sesión</a>
+                {% endif %}
                 {% comment %}
                 <a href="{% url 'settings' %}">Configuración</a>
                 {% endcomment %}

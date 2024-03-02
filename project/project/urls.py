@@ -34,7 +34,11 @@ from project.controlers.publication_views import (
     register_publication,
     list_publications,
 )
-from project.controlers.comment_views import AddCommentView
+from project.controlers.comment_views import (
+    AddCommentView,
+    DeleteCommentView,
+    EditCommentView,
+)
 
 
 urlpatterns = [
@@ -68,5 +72,15 @@ urlpatterns = [
         "publications/<int:pk>/add-comment/",
         AddCommentView.as_view(),
         name="add_comment",
+    ),
+    path(
+        "comments/<int:pk>/edit/",
+        EditCommentView.as_view(),
+        name="edit_comment",
+    ),
+    path(
+        "comments/<int:pk>/delete/",
+        DeleteCommentView.as_view(),
+        name="delete_comment",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

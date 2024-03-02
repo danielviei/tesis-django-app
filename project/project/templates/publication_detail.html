@@ -19,14 +19,37 @@
                 <div id="comments-section">
                     <ul class="list-none space-y-4">
                         {% for comment in publication.comments.all %}
-                        <li class="p-4 rounded-md bg-gray-100">
+                        <li id="comment-{{ comment.id }}" class="p-4 rounded-md bg-gray-100">
                             <div class="flex items-center">
                                 <img src="{{ comment.author_id.img.url }}" alt="{{ comment.author_id.email }} profile picture" class="w-10 h-10 rounded-full mr-4">
                                 <div>
-                                    <h4 class="text-md font-bold text-gray-800">{{ comment.author_id.email }}</h4>
-                                    <p class="text-gray-600">{{ comment.content }}</p>
+                                    <div class="flex justify-around">
+                                        <h4 class="text-md font-bold text-gray-800">{{ comment.author_id.email }}</h4>
+                                        {% if comment.author_id == user %}
+                                        <div>
+                                            <button class="edit-button" data-comment-id="{{ comment.id }}">editar</button>
+                                            <button class="delete-button" data-comment-id="{{ comment.id }}">eliminar</button>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <p id="comment-{{ comment.id }}-content" class="text-gray-600">{{ comment.content }}</p>
                                 </div>
                             </div>
+                            {% if comment.author_id == user %}
+                            <form
+                                id="edit-form-{{ comment.id }}"
+                                class="edit-form p-2"
+                                data-comment-id="{{ comment.id }}"
+                                style="display: none;"
+                            >
+                                <textarea>{{ comment.content }}</textarea>
+                                <button type="submit">Guardar</button>
+                            </form>
+                            <div id="delete-confirmation-{{ comment.id }}" class="delete-confirmation" style="display: none;">
+                                <p>¿Estás seguro de que quieres eliminar este comentario?</p>
+                                <button class="delete-confirmation-button" data-comment-id="{{ comment.id }}">Eliminar</button>
+                            </div>
+                            {% endif %}
                         </li>
                         {% endfor %}
                     </ul>
@@ -42,7 +65,7 @@
                             class="w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         ></textarea>
-                        <button type="submit" class="mt-4 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-700">Comentar</button>
+                        <button type="submit" class="mt-4 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-700">Publicar</button>
                     </div>
                 </form>
                 <input
@@ -51,6 +74,43 @@
                     id="publication_id"
                     value="{{ publication.id }}"
                 >
+            </div>
+        </div>
+    </div>
+</div>
+<div
+    id="deleteModal"
+    class="fixed z-10 inset-0 overflow-y-auto"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+    style="display: none;"
+>
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Confirmación de eliminación
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500">
+                                ¿Estás seguro de que quieres eliminar este comentario?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" id="confirmDelete">
+                    Eliminar
+                </button>
+                <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>
@@ -81,10 +141,137 @@
           const commentsSection = document.getElementById('comments-section');
           commentsSection.innerHTML = data.comments_html; // Replace with your HTML update logic
           document.getElementById('comment_content').value = ''; // Clear comment input
+          assignListeners();
         })
         .catch(error => {
           console.error(error); // Display error message to the user (optional)
         });
       });
+    function assignListeners() {
+        document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
+        button.addEventListener('click', function() {
+            const deleteModal = document.getElementById('deleteModal');
+            deleteModal.style.display = 'none';
+        });
+    });
+    // Add event listeners to edit and delete buttons
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            const commentId = event.target.dataset.commentId;
+            const commentContentElement = document.querySelector(`#comment-${commentId}-content`);
+            const commentContent = commentContentElement.textContent;
+
+            // Hide comment content
+            commentContentElement.style.display = 'none';
+
+            // Show edit form
+            const editForm = document.querySelector(`#edit-form-${commentId}`);
+            editForm.querySelector('textarea').value = commentContent;
+            editForm.style.display = 'block';
+        });
+    });
+
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            const commentId = event.target.dataset.commentId;
+
+            // Show delete confirmation
+            const deleteModal = document.getElementById('deleteModal');
+            deleteModal.style.display = 'block';
+
+            // Set the event listener for the confirm delete button
+            document.getElementById('confirmDelete').addEventListener('click', function() {
+                // Send delete request
+                fetch(`/comments/${commentId}/delete/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error deleting comment: ${response.statusText}`);
+                    }
+
+                    // Remove comment from DOM
+                    document.querySelector(`#comment-${commentId}`).remove();
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+                // Hide the modal
+                deleteModal.style.display = 'none';
+            });
+        });
+    });
+
+    // Add event listeners to edit form submit buttons
+    document.querySelectorAll('.edit-form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const commentId = event.target.dataset.commentId;
+            const commentContent = event.target.querySelector('textarea').value;
+
+            // Send edit request
+            fetch(`/comments/${commentId}/edit/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                },
+                body: JSON.stringify({ content: commentContent }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error editing comment: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update comment content
+                const commentContentElement = document.querySelector(`#comment-${commentId}-content`);
+                commentContentElement.textContent = data.content;
+
+                // Show comment content
+                commentContentElement.style.display = '';
+
+                // Hide edit form
+                event.target.style.display = 'none';
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });
+    });
+    
+    // Add event listeners to delete confirmation buttons
+    document.querySelectorAll('.delete-confirmation-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            const commentId = event.target.dataset.commentId;
+
+            // Send delete request
+            fetch(`/comments/${commentId}/delete/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error deleting comment: ${response.statusText}`);
+                }
+
+                // Remove comment from DOM
+                document.querySelector(`#comment-${commentId}`).remove();
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });
+    });
+}
+assignListeners();
 </script>
 {% endblock %}
