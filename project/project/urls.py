@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from project.controlers.user_views import login_view, register
+from project.controlers.user_views import login_view, password_reset, register, profile
 from project.controlers.publication_views import (
     PublicationDetailView,
     register_publication,
@@ -31,20 +31,20 @@ from project.controlers.comment_views import AddCommentView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", list_publications, name="home"),
+    # user
     path("register/", register, name="register"),
     path("login/", login_view, name="login"),
-    path("home/", list_publications, name="home"),
+    path("profile/", profile, name="profile"),
+    path("password-reset/", password_reset, name="password_reset"),
+    # publication
     path("create-publication/", register_publication, name="create_publication"),
     path(
         "publications/<int:pk>/",
         PublicationDetailView.as_view(),
         name="publication_detail",
     ),
-    path(
-        "publications/<int:pk>/add-comment/",
-        AddCommentView.as_view(),
-        name="add_comment",
-    ),
+    # comments
     path(
         "publications/<int:pk>/add-comment/",
         AddCommentView.as_view(),

@@ -39,6 +39,48 @@ class RegisterForm(forms.ModelForm):
         return user
 
 
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["name", "lastname", "email", "img"]
+        widgets = {
+            "img": ImageUploadWidget(attrs={"class": "hidden"}),
+        }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
+
+
+from django import forms
+
+
+class PasswordResetForm(forms.Form):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            }
+        )
+    )
+    new_password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            }
+        )
+    )
+    confirm_new_password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            }
+        )
+    )
+
+
 class LoginForm(forms.Form):
     email = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
