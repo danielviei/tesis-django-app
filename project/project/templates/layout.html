@@ -15,8 +15,11 @@
             <!-- <h1>Bienvenido, {{ user.username }}</h1> -->
             <div class="flex items-center space-x-4">
                 <a href="{% url 'profile' %}">Perfil</a>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Cerrar sesión</button>
+                </form>
                 {% comment %}
-                <a href="{% url 'logout' %}">Cerrar sesión</a>
                 <a href="{% url 'settings' %}">Configuración</a>
                 {% endcomment %}
             </div>
