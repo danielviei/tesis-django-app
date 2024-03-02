@@ -148,6 +148,8 @@ AUTH_USER_MODEL = "project.CustomUser"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# Logout settings
+LOGOUT_REDIRECT_URL = 'login'
 
 # Email settings
 BASE_URL = env("BASE_URL")
