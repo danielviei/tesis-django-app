@@ -8,20 +8,22 @@
         <section class="flex flex-col md:w-1/2 gap-4">
             {% for publication in publications %}
             <article class="p-4 rounded-md shadow-md bg-white hover:shadow-lg">
-                <div class="flex items-center mb-2">
-                    {% if publication.author_id.img %}
-                    <img src="{{ publication.author_id.img.url }}" alt="{{ publication.author_id.img.alt_text }}" class="w-12 h-12 rounded-full object-cover">
-                    {% endif %}
-                    <div class="ml-4">
-                        <h3 class="text-gray-800 font-bold">{{ publication.author_id.name }} {{ publication.author_id.lastname }}</h3>
-                        <p class="text-gray-600">{{ publication.created_at }}</p>
+                <a href="{% url 'publication_detail' pk=publication.id %}">
+                    <div class="flex items-center mb-2">
+                        {% if publication.author_id.img %}
+                        <img src="{{ publication.author_id.img.url }}" alt="{{ publication.author_id.img.alt_text }}" class="w-12 h-12 rounded-full object-cover">
+                        {% endif %}
+                        <div class="ml-4">
+                            <h3 class="text-gray-800 font-bold">{{ publication.author_id.name }} {{ publication.author_id.lastname }}</h3>
+                            <p class="text-gray-600">{{ publication.created_at }}</p>
+                        </div>
                     </div>
-                </div>
-                <img src="{{ publication.image.url }}" alt="{{ publication.image.alt_text }}" class="w-full rounded-t-md">
-                <div class="p-4">
-                    <h2 class="text-lg font-bold text-gray-800">{{ publication.title }}</h2>
-                    <p class="text-gray-600">{{ publication.content }}</p>
-                </div>
+                    <img src="{{ publication.image.url }}" alt="{{ publication.image.alt_text }}" class="w-full rounded-t-md">
+                    <div class="p-4">
+                        <h2 class="text-lg font-bold text-gray-800">{{ publication.title }}</h2>
+                        <p class="text-gray-600">{{ publication.content }}</p>
+                    </div>
+                </a>
             </article>
             {% endfor %}
         </section>
