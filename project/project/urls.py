@@ -30,7 +30,9 @@ from project.controlers.user_views import (
     reset_password,
 )
 from project.controlers.publication_views import (
+    DeletePublicationView,
     PublicationDetailView,
+    edit_publication,
     register_publication,
     list_publications,
 )
@@ -66,6 +68,16 @@ urlpatterns = [
         "publications/<int:pk>/",
         PublicationDetailView.as_view(),
         name="publication_detail",
+    ),
+    path(
+        "publications/<int:pk>/edit/",
+        edit_publication,
+        name="edit_publication",
+    ),
+    path(
+        "publications/<int:pk>/delete/",
+        DeletePublicationView.as_view(),
+        name="delete_publication",
     ),
     # comments
     path(

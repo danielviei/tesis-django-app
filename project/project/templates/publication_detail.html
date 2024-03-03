@@ -2,10 +2,25 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="container mx-auto py-8">
+<div class="container w-full mx-auto py-8 px-4">
     <div class="flex flex-col md:flex-row gap-4">
         <div class="w-full md:w-2/3">
-            <article class="p-4 rounded-md shadow-md bg-white">
+            <article class="p-4 rounded-md shadow-md bg-gray-200 p-2">
+                <div class="flex items-center mb-2">
+                    <img src="{{ publication.author_id.img.url }}" alt="{{ publication.author_id.email }} profile picture" class="w-10 h-10 rounded-full mr-4">
+                    <div class="w-full">
+                        <div class="flex justify-between">
+                            <h4 class="text-md font-bold text-gray-800">{{ publication.author_id.email }}</h4>
+                            {% if publication.author_id == user %}
+                            <div>
+                                <a href="{% url 'edit_publication' publication.id %}" class="edit-publication-button">editar</a>
+                                <!-- <button class="edit-publication-button" data-publication-id="{{ publication.id }}">editar</button> -->
+                                <button id="delete-publication-button" data-publication-id="{{ publication.id }}">Eliminar</button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
                 <img src="{{ publication.image.url }}" alt="{{ publication.image.alt_text }}" class="w-full rounded-t-md">
                 <div class="p-4">
                     <h2 class="text-lg font-bold text-gray-800">{{ publication.title }}</h2>
@@ -23,7 +38,7 @@
                             <div class="flex items-center">
                                 <img src="{{ comment.author_id.img.url }}" alt="{{ comment.author_id.email }} profile picture" class="w-10 h-10 rounded-full mr-4">
                                 <div>
-                                    <div class="flex justify-around">
+                                    <div class="flex justify-between">
                                         <h4 class="text-md font-bold text-gray-800">{{ comment.author_id.email }}</h4>
                                         {% if comment.author_id == user %}
                                         <div>
@@ -115,7 +130,81 @@
         </div>
     </div>
 </div>
+<div
+    id="deletePublicationModal"
+    class="fixed z-10 inset-0 overflow-y-auto"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+    style="display: none;"
+>
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Confirmación de eliminación
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500">
+                                ¿Estás seguro de que quieres eliminar esta publication?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" id="confirmPublicationDelete">
+                    Eliminar
+                </button>
+                <button id="cancel-button-publication" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    document.getElementById('cancel-button-publication').addEventListener('click', function() {
+        const deletePublicationModal = document.getElementById('deletePublicationModal');
+        deletePublicationModal.style.display = 'none';
+    });
+    document.getElementById('delete-publication-button').addEventListener('click', function(event) {
+        const publicationID = this.dataset.publicationId;
+
+        // Show delete confirmation
+        const deletePublicationModal = document.getElementById('deletePublicationModal');
+        deletePublicationModal.style.display = 'block';
+
+        // Set the event listener for the confirm delete button
+        document.getElementById('confirmPublicationDelete').addEventListener('click', function() {
+            // Send delete request
+            fetch(`/publications/${publicationID}/delete/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error deleting publication: ${response.statusText}`);
+                }
+
+                // Redirect to home
+                window.location.href = "/";
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+            // Hide the modal
+            deletePublicationModal.style.display = 'none';
+        });
+    });
+
     document.getElementById('comment-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent default form submission
       
