@@ -44,6 +44,7 @@ class CustomUser(AbstractBaseUser):
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     def get_full_name(self):
         return f"{self.name} {self.lastname}"
@@ -53,3 +54,10 @@ class CustomUser(AbstractBaseUser):
 
     def has_perm(self, perm, obj=None):
         return True
+
+    def has_module_perms(self, app_label):
+        """
+        ¿El usuario tiene permisos para ver el módulo `app_label`?
+        (Siempre `True` para usuarios activos y superusuarios.)
+        """
+        return self.is_staff
