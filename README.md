@@ -16,13 +16,11 @@ Esta es una aplicación base básica que permite a los usuarios registrarse, cre
 ## ⚙️ Configuración
 
 1. Crea un archivo `.env` con los siguientes valores:
-    a. Url base
-        - `BASE_URL`: Esta es la url usada para generar url absolutas, por ejemplo se puede usar el valor "http://localhost:8000".
-    b. Para enviar correos de recuperación de contraseña:
-        - `EMAIL_HOST_USER`: El correo de Gmail desde el cual deseas enviar los correos.
-        - `EMAIL_HOST_PASSWORD`: La contraseña de aplicación utilizada para autenticarse con la API de Gmail.
-
-⚠️ Asegúrate de que el usuario y la contraseña proporcionados para la base de datos tengan los permisos necesarios.
+a. Url base
+- `BASE_URL`: Esta es la url usada para generar url absolutas, por ejemplo se puede usar el valor "http://localhost:8000".
+b. Para enviar correos de recuperación de contraseña:
+- `EMAIL_HOST_USER`: El correo de Gmail desde el cual deseas enviar los correos.
+- `EMAIL_HOST_PASSWORD`: La contraseña de aplicación utilizada para autenticarse con la API de Gmail.
 
 ## 🗄️ Ejecución de las migraciones de la Base de Datos
 
