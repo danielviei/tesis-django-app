@@ -8,29 +8,23 @@ Esta es una aplicación base básica que permite a los usuarios registrarse, cre
 
 ## 🚀 Instalación
 
-1. Instala las dependencias del proyecto:
+1. Crear el entorno virtual
+   ```bash
+   python -m venv venv
+   ```
+
+2. Activar el entorno virtual
+   ```bash
+   source ./venv/bin/activate
+   ```
+
+4. Instala las dependencias del proyecto:
     ```bash
-    pip install -r requirements.txt
+    pip install -r requeriments.txt 
     ```
-2. Crear la carpeta de archivos estáticos
+5. Crear la carpeta de archivos estáticos
    ```
    mkdir project/static
-   ```
-3. Instalación de tailwind:
-
-   a. Primero ejecuta el siguiente comando y al salir una opcion dale a enter:
-   ```bash
-   cd project && python ./project/manage.py tailwind init && cd ..
-   ```
-
-   b. Instalar las dependencias:
-   ```bash
-    cd project/theme/static_src/ && npm install && cd ../../..
-   ```
-
-   c. Compilar los estilos:
-   ```bash
-   python ./project/manage.py tailwind build
    ```
    
    
