@@ -46,23 +46,19 @@ def forgot_password(request):
         if form.is_valid():
             email = form.cleaned_data["email"]
             user = CustomUser.objects.filter(email=email).first()
-            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-            token = default_token_generator.make_token(user)
             if user is not None:
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                token = default_token_generator.make_token(user)
                 send_reset_password_email(
                     user.email,
                     "Restablecer contraseña",
                     f"{BASE_URL}/password-reset/{uidb64}/{token}",
                 )
-                messages.success(
-                    request,
-                    "Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña.",
-                )
-            else:
-                messages.error(
-                    request,
-                    "No se encontró un usuario con ese nombre de usuario o correo electrónico.",
-                )
+            messages.success(
+                request,
+                "Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña.",
+            )
+            return render(request, "reset_password_message.html")
     else:
         form = ForgotPasswordForm()
     return render(request, "forgot_password.html", {"form": form})
