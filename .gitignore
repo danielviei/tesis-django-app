@@ -6,6 +6,7 @@ node_modules
 
 venv
 .venv
+client_secret_840737787220-5c3edmmdk6tebrce43phd3icn00r1v4r.apps.googleusercontent.com
 
 # db
 db.sqlite3
