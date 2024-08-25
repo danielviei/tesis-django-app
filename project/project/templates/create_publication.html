@@ -45,11 +45,14 @@
                         </label>
                     </div>
                 </div>
+                {% if form.errors.image %}
+                    <div class="text-red-500 text-xs mt-2">{{ form.errors.image|join:", " }}</div>
+                {% endif %}
                 <div class="flex mb-4 w-full">
                     <div class="flex flex-col w-full">
                         <label for="{{ form.title.id_for_label }}" class="ml-4 block text-sm font-bold mb-2">{{ form.title.label }}</label>
                         {{ form.title|add_class:"w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
-        {% if form.title.errors %}
+                        {% if form.title.errors %}
                         <div class="text-red-500 text-xs mt-2">{{ form.title.errors|join:", " }}</div>
                         {% endif %}
                     </div>
@@ -58,7 +61,7 @@
                     <div class="flex flex-col w-full">
                         <label for="{{ form.content.id_for_label }}" class="ml-4 block text-sm font-bold mb-2">{{ form.content.label }}</label>
                         {{ form.content|add_class:"w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
-        {% if form.content.errors %}
+                        {% if form.content.errors %}
                         <div class="text-red-500 text-xs mt-2">{{ form.content.errors|join:", " }}</div>
                         {% endif %}
                     </div>
