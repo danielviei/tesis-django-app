@@ -23,6 +23,7 @@ media
 
 # css or js builders
 static
+!project/theme/static
 static_src
 staticfiles
 

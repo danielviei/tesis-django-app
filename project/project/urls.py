@@ -21,7 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from django.urls import path
 
-from project.controlers.user_views import (
+from project.controllers.user_views import (
     forgot_password,
     login_view,
     password_reset,
@@ -29,14 +29,14 @@ from project.controlers.user_views import (
     profile,
     reset_password,
 )
-from project.controlers.publication_views import (
+from project.controllers.publication_views import (
     DeletePublicationView,
     PublicationDetailView,
     edit_publication,
     register_publication,
     list_publications,
 )
-from project.controlers.comment_views import (
+from project.controllers.comment_views import (
     AddCommentView,
     DeleteCommentView,
     EditCommentView,
