@@ -55,9 +55,6 @@ class UpdateForm(forms.ModelForm):
         return user
 
 
-from django import forms
-
-
 class PasswordResetForm(forms.Form):
     old_password = forms.CharField(
         widget=forms.PasswordInput(

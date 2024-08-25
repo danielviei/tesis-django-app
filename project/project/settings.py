@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -149,7 +150,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Logout settings
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = "login"
 
 # Email settings
 BASE_URL = env("BASE_URL")
@@ -160,3 +161,17 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 GOOGLE_APPLICATION_CREDENTIALS = env("GOOGLE_APPLICATION_CREDENTIALS")
+
+# settings.py
+LANGUAGE_CODE = "es"  # Cambia esto al código de idioma que prefieras
+
+USE_I18N = True
+
+LANGUAGES = [
+    ("es", "Spanish"),
+    # Agrega cualquier otro idioma que quieras soportar aquí
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]

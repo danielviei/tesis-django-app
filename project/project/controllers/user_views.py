@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -95,11 +95,6 @@ def send_reset_password_email(to_email, subject, message):
         print("Email sent!")
     except Exception as e:
         print(f"Failed to send email: {e}")
-
-
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_str
 
 
 def get_user_from_password_reset_token(uidb64, token):

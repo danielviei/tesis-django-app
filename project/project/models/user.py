@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
@@ -61,3 +62,7 @@ class CustomUser(AbstractBaseUser):
         (Siempre `True` para usuarios activos y superusuarios.)
         """
         return self.is_staff
+
+    class Meta:
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")

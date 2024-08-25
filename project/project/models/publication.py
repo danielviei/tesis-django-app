@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from project.models.user import CustomUser as User
 
@@ -11,6 +12,10 @@ class Publication(models.Model):
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     is_blocked = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _("Publication")
+        verbose_name_plural = _("Publications")
 
     def __str__(self):
         return self.title
